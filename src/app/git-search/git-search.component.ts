@@ -3,6 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { GitSearchService } from '../git-search.service';
 import { GitSearch } from '../git-search';
+import { AdvancedSearchModel } from '../advanced-search-model';
 
 @Component({
   selector: 'app-git-search',
@@ -19,6 +20,9 @@ export class GitSearchComponent implements OnInit {
   constructor(private GitSearchService: GitSearchService,
     private route: ActivatedRoute,
     private router: Router) { }
+
+  model = new AdvancedSearchModel('', '', '', null, null, '');
+  modelKeys = Object.keys(this.model);
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -41,7 +45,22 @@ export class GitSearchComponent implements OnInit {
 
   sendQuery = () => {
     this.searchResults = null;
-    this.router.navigate(['/search/' + this.searchQuery]);
+    let search: string = this.model.q;
+    let params: string = "";
+    this.modelKeys.forEach((elem) => {
+      if (elem === 'q') {
+        return false;
+      }
+      if (this.model[elem]) {
+        params += '+' + elem + ':' + this.model[elem];
+      }
+    })
+    this.searchQuery = search;
+    if (params !== '') {
+      this.searchQuery = search + '+' + params;
+    }
+    this.displayQuery = this.searchQuery;
+    this.gitSearch();
   }
 
 }
