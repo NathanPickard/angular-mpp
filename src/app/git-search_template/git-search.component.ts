@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
 
 import { GitSearchService } from '../git-search.service';
 import { GitSearch } from '../git-search';
@@ -17,17 +16,10 @@ export class GitSearchComponent implements OnInit {
   searchQuery: string;
   title: string;
   displayQuery: string;
-  form: FormGroup;
-  formControls = {};
 
   constructor(private GitSearchService: GitSearchService,
     private route: ActivatedRoute,
-    private router: Router) {
-    this.modelKeys.forEach((key) => {
-      this.formControls[key] = new FormControl();
-    })
-    this.form = new FormGroup(this.formControls);
-  }
+    private router: Router) { }
 
   model = new AdvancedSearchModel('', '', '', null, null, '');
   modelKeys = Object.keys(this.model);
@@ -53,14 +45,14 @@ export class GitSearchComponent implements OnInit {
 
   sendQuery = () => {
     this.searchResults = null;
-    let search: string = this.form.value['q'];
+    let search: string = this.model.q;
     let params: string = "";
     this.modelKeys.forEach((elem) => {
       if (elem === 'q') {
         return false;
       }
-      if (this.form.value[elem]) {
-        params += '+' + elem + ':' + this.form.value[elem];
+      if (this.model[elem]) {
+        params += '+' + elem + ':' + this.model[elem];
       }
     })
     this.searchQuery = search;
