@@ -3,7 +3,7 @@
   <div *ngFor="let key of modelKeys">
     {{ key }} <input placeholder="Enter {{ key }} Here" formControlName="{{ key }}" />
   </div>
-  <button type="submit">Submit</button>
+  <button type="submit" [disabled]="!form.valid">Submit</button>
 </form>
 
 <div *ngIf="searchResults; else elseBlock">

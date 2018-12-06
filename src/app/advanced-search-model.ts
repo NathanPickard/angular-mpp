@@ -4,7 +4,7 @@ export class AdvancedSearchModel {
     public language?: string,
     public user?: string,
     public size?: number,
-    public starts?: number,
+    public stars?: number,
     public topic?: string
   ) { }
 }
