@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { GitSearchService } from '../git-search.service';
 import { GitSearch } from '../git-search';
@@ -17,38 +16,13 @@ export class GitSearchComponent implements OnInit {
   searchQuery: string;
   title: string;
   displayQuery: string;
-  form: FormGroup;
-  formControls = {};
 
   constructor(private GitSearchService: GitSearchService,
     private route: ActivatedRoute,
-    private router: Router) {
-    this.modelKeys.forEach((key) => {
-      let validators = [];
-      if (key === 'q') {
-        validators.push(Validators.required);
-      }
-      if (key === 'stars') {
-        validators.push(Validators.maxLength(4));
-      }
-      validators.push(this.noSpecialChars);
-      this.formControls[key] = new FormControl(this.model[key], validators);
-    })
-    this.form = new FormGroup(this.formControls);
-  }
+    private router: Router) { }
 
   model = new AdvancedSearchModel('', '', '', null, null, '');
   modelKeys = Object.keys(this.model);
-
-  noSpecialChars(c: FormControl) {
-    let REGEXP = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
-
-    return REGEXP.test(c.value) ? {
-      validateEmail: {
-        valid: false
-      }
-    } : null;
-  }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -71,14 +45,14 @@ export class GitSearchComponent implements OnInit {
 
   sendQuery = () => {
     this.searchResults = null;
-    let search: string = this.form.value['q'];
+    let search: string = this.model.q;
     let params: string = "";
     this.modelKeys.forEach((elem) => {
       if (elem === 'q') {
         return false;
       }
-      if (this.form.value[elem]) {
-        params += '+' + elem + ':' + this.form.value[elem];
+      if (this.model[elem]) {
+        params += '+' + elem + ':' + this.model[elem];
       }
     })
     this.searchQuery = search;
