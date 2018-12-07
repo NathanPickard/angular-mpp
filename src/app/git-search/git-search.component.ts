@@ -43,6 +43,10 @@ export class GitSearchComponent implements OnInit {
     });
   }
 
+  checkType = (key) => {
+    return typeof key === 'string' ? 'text' : typeof key;
+  }
+
   sendQuery = () => {
     this.searchResults = null;
     let search: string = this.model.q;
