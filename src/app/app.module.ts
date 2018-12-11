@@ -12,6 +12,7 @@ import { UnifiedSearchService } from './unified-search.service';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NoSpecialCharsDirective } from './no-special-chars.directive';
+import { FavoriteTextPipe } from './favorite-text.pipe';
 
 const appRoutes: Routes = [
   {
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     GitSearchComponent,
     HomePageComponent,
     NotFoundComponent,
-    NoSpecialCharsDirective
+    NoSpecialCharsDirective,
+    FavoriteTextPipe
   ],
   imports: [
     BrowserModule,

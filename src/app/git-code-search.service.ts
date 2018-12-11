@@ -10,7 +10,7 @@ import { GitCodeSearch } from './git-code-search';
 export class GitCodeSearchService {
 
   cachedValue: string;
-  search: Observable<GitSearch>;
+  search: Observable<GitCodeSearch>;
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,9 @@ export class GitCodeSearchService {
       query = query + '+user:angular';
     }
     if (!this.search) {
-      this.search = this.http.get<GitCodeSearch>('https://api/github.com/search/code?q=' + query)
+      this.search = this.http.get<GitCodeSearch>('https://api.github.com/search/code?q=' + query)
+      // .publishReplay(1)
+      // .refCount();
       this.cachedValue = query;
     }
     else if (this.cachedValue !== query) {
